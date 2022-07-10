@@ -10,15 +10,16 @@ dotenv.config();
 const port = process.env.PORT ?? 3000;
 
 const app = express();
-
 // Debug and automatically rerun on change code
-app.use(morgan("combined"));
+// app.use(morgan("combined"));
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Configuation static files
 app.use(express.static(path.join(__dirname, "/clients/public")));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Setup template engine Handlebars
 app.engine(".hbs", engine({ extname: ".hbs" }));
@@ -26,10 +27,18 @@ app.set("view engine", ".hbs");
 app.set("views", path.join(__dirname, "/clients/views"));
 
 app.get("/", (req, res) => {
+  console.log(req.body);
+  res.render("home");
+});
+app.post("/", (req, res) => {
+  console.log(req.body);
   res.render("home");
 });
 app.get("/news", (req, res) => {
   res.render("news");
+});
+app.get("/search", (req, res) => {
+  res.render("search");
 });
 
 app.listen(port, () => {
