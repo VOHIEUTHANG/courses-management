@@ -1,10 +1,6 @@
-import pool from '../config/ConnectMySQL.js';
-
 class NewsController {
-  async index(req, res) {
-    // [get] news
-    const [row, feild] = await pool.execute('select * from user');
-    console.log(row);
+  // [get] news
+  index(req, res, next) {
     res.render('news');
   }
   //   [get] news/:slug
