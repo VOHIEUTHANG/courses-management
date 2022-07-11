@@ -1,7 +1,7 @@
 import express from "express";
-import morgan from "morgan";
 import dotenv from "dotenv";
-import path, { dirname } from "path";
+import routes from "./routes/index.js";
+import path from "path";
 import { fileURLToPath } from "url";
 import { engine } from "express-handlebars";
 
@@ -26,20 +26,7 @@ app.engine(".hbs", engine({ extname: ".hbs" }));
 app.set("view engine", ".hbs");
 app.set("views", path.join(__dirname, "/clients/views"));
 
-app.get("/", (req, res) => {
-  console.log(req.body);
-  res.render("home");
-});
-app.post("/", (req, res) => {
-  console.log(req.body);
-  res.render("home");
-});
-app.get("/news", (req, res) => {
-  res.render("news");
-});
-app.get("/search", (req, res) => {
-  res.render("search");
-});
+routes(app);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at https://localhost:${port}`);
