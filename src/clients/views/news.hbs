@@ -1,1 +1,16 @@
-<h1>News Page</h1>
+<h1 class='mt-4 text-center'>Your Courses</h1>
+<div class='row mt-4'>
+  {{#each courses}}
+    <div class='col-xl-3 col-lg-4 col-md-6 col-sm-12'>
+      <div class='card mt-4'>
+        <img src={{this.thumbnail}} class='card-img-top' alt='...' />
+        <div class='card-body'>
+          <h5 class='card-title'>{{this.name}}</h5>
+          <p class='card-text'>Some quick example text to build on the card title and make up the
+            bulk of the card content.</p>
+          <a href='#' class='btn btn-primary'>Mua khóa học</a>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>
