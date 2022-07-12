@@ -1,9 +1,8 @@
-<div class='card mt-4'>
+<div class='card mt-4 mx-auto' style='width: 18rem;'>
+  <img src='{{course.thumbnail}}' class='card-img-top' alt='...' />
   <div class='card-body'>
     <h5 class='card-title'>{{course.name}}</h5>
-    <p class='card-text'>This is a wider card with supporting text below as a natural lead-in to
-      additional content. This content is a little bit longer.</p>
-    <p class='card-text'><small class='text-muted'>Last updated 3 mins ago</small></p>
+    <p class='card-text'>{{course.description}}</p>
+    <a href='#' class='btn btn-primary'>Subscribe Course</a>
   </div>
-  <img src={{course.thumbnail}} class='card-img-bottom' alt='...' />
 </div>

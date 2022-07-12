@@ -1,0 +1,32 @@
+<div class='mt-5 row'>
+  <div class='col col-xl-8 mx-auto'>
+    <h2 class='text-center'>Edit Course</h2>
+    <form method='POST' action='/courses/update/{{course.id}}/?_method=PUT'>
+      <div class='mb-3'>
+        <label for='nameID' class='form-label'>Course Name</label>
+        <input type='text' value='{{course.name}}' name='name' class='form-control' id='nameID' />
+      </div>
+      <div class='mb-3'>
+        <label for='descID' class='form-label'>Course Descriptions</label>
+        <input
+          type='text'
+          value='{{course.description}}'
+          name='description'
+          class='form-control'
+          id='descID'
+        />
+      </div>
+      <div class='mb-3'>
+        <label for='thumbnailID' class='form-label'>Course Thumbnail</label>
+        <input
+          type='text'
+          value='{{course.thumbnail}}'
+          name='thumbnail'
+          class='form-control'
+          id='thumbnailID'
+        />
+      </div>
+      <button type='submit' class='mt-4 btn-create-course btn btn-primary'>Confirm modifications</button>
+    </form>
+  </div>
+</div>

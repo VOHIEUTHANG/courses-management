@@ -1,2 +1,33 @@
 @import 'variable';
 @import 'mixi';
+
+form {
+  margin: 0;
+}
+.nav-link {
+  color: white;
+}
+
+.btn-create-course {
+  display: block;
+  margin: 0 auto;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover {
+  color: inherit;
+}
+
+.nav-link {
+  text-transform: uppercase;
+}
+.img-thumbnail {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid white;
+  padding: 0;
+  background-color: transparent;
+}
