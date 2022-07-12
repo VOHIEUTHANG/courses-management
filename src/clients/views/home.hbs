@@ -6,9 +6,11 @@
           <img src={{this.thumbnail}} class='card-img-top' alt='...' />
         </a>
         <div class='card-body'>
-          <h5 class='card-title'>{{this.name}}</h5>
-          <p class='card-text'>{{this.description}}</p>
-          <a href='/courses/detail/{{this.id}}' class='btn btn-primary'>Course Detail</a>
+          <h5
+            class='card-title'
+            style='white-space: nowrap; text-overflow: ellipsis; overflow: hidden'
+          >{{this.name}}</h5>
+          <a href='/courses/detail/{{this.id}}' class='btn btn-primary mt-2'>Course Detail</a>
         </div>
       </div>
     </div>

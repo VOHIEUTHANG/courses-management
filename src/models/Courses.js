@@ -49,4 +49,16 @@ const updateCourse = async (...courseInfo) => {
   }
 };
 
-export { getAllCourses, getParicularCourses, createCourse, updateCourse };
+const deleteCourse = async id => {
+  try {
+    const [{ affectedRows }] = await pool.execute('DELETE FROM courses WHERE id = ?', [id]);
+    if (affectedRows > 0) {
+      return 1;
+    }
+  } catch (error) {
+    console.log('🚀 ~ file: Courses.js ~ line 59 ~ error', error);
+    return 0;
+  }
+};
+
+export { getAllCourses, getParicularCourses, createCourse, updateCourse, deleteCourse };

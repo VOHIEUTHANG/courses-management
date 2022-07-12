@@ -7,5 +7,6 @@ router.post('/store', courseController.store);
 router.put('/update/:id', courseController.update);
 router.get('/edit/:id', courseController.edit);
 router.get('/detail/:id', courseController.detail);
+router.delete('/delete/:id', courseController.delete);
 
 export default router;

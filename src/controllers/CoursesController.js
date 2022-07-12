@@ -1,4 +1,10 @@
-import { getParicularCourses, createCourse, updateCourse } from '../models/Courses.js';
+import {
+  getParicularCourses,
+  createCourse,
+  updateCourse,
+  deleteCourse,
+} from '../models/Courses.js';
+
 class CourseController {
   //   [Get] detail/:id
   async detail(req, res, next) {
@@ -20,7 +26,7 @@ class CourseController {
     const { name, description, thumbnail } = data;
     const insertStatus = await createCourse(name.trim(), description.trim(), thumbnail.trim());
     if (insertStatus) {
-      res.redirect(`/courses/${insertStatus}`);
+      res.redirect(`/courses/detail/${insertStatus}`);
     } else {
       next('Update course infor failed !');
     }
@@ -40,6 +46,16 @@ class CourseController {
       res.redirect('/me/courses');
     } else {
       next('Update course infor failed !');
+    }
+  }
+
+  async delete(req, res, next) {
+    const id = req.params.id;
+    const deleteStatus = await deleteCourse(id);
+    if (deleteStatus) {
+      res.redirect('/me/courses');
+    } else {
+      next('Delete course successfully !');
     }
   }
 }
