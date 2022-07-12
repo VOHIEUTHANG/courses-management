@@ -1,0 +1,46 @@
+<div class='row mt-3'>
+  <h2 class='text-center'>My Courses</h2>
+  <table class='table table-bordered mt-4'>
+    <thead>
+      <tr>
+        <th scope='col'>Id</th>
+        <th scope='col'>Name</th>
+        <th scope='col'>Description</th>
+        <th scope='col'>Thumbnail</th>
+        <th scope='col'>Edit course</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each courses}}
+        <tr>
+          <th scope='row'>{{this.id}}</th>
+          <td>{{this.name}}</td>
+          <td>{{this.description}}</td>
+          <td>{{this.thumbnail}}</td>
+          <td>
+            <div  style="display:inline-block">
+            <form
+              method='POST'
+                style="display:inline-block"
+              action="/courses/restore/{{this.id}}?_method=PATCH"
+            >
+            <button type='submit' class='btn btn-success'>
+              Restore
+            </button>
+            </form>
+            </div>
+            <span class='mx-1'></span>
+            <button class="btn btn-danger">Permenently Delete</>
+          </td>
+        </tr> 
+        {{else}}
+          <tr>
+            <td colspan="5" class="text-center">
+              <div class="my-2 font-bold text-xl-center">Empty Recycle Bin !</div>
+            </td>
+          </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+

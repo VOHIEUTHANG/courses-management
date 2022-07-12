@@ -21,9 +21,16 @@
             <div class='btn btn-dark'><a href='/courses/edit/{{this.id}}'>Edit</a></div>
             <span class='mx-1'></span>
             <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#configmDeleteCourse" data-id="{{this.id}}">Delete</>
-         
           </td>
         </tr>
+        {{else}}
+          <tr>
+            <td colspan="5">
+              You are not have any course now, <a href="/courses/create">
+                create
+              </a> new one  immediately ! 
+            </td>
+          </tr>
       {{/each}}
     </tbody>
   </table>
@@ -65,7 +72,7 @@ exampleModal.addEventListener('show.bs.modal', function (event) {
   const deleteButton = document.getElementById('delete-btn')
   const formDeleteCourse = document.getElementById('form-delete-course');
   deleteButton.onclick = ()=>{
-    formDeleteCourse.setAttribute('action',`/courses/delete/${id}?_method=DELETE`);
+    formDeleteCourse.setAttribute('action',`/courses/delete/${id}?_method=PATCH`);
     formDeleteCourse.submit();
   }
 });

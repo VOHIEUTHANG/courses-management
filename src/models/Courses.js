@@ -2,7 +2,17 @@ import pool from '../config/ConnectMySQL.js';
 
 const getAllCourses = async () => {
   try {
-    const [row, feild] = await pool.execute('select * from courses');
+    const [row, feild] = await pool.execute('select * from courses where deleted = 0');
+    return row;
+  } catch (error) {
+    console.log(error.message);
+    return 0;
+  }
+};
+
+const getDeletedCourses = async () => {
+  try {
+    const [row] = await pool.execute('select * from courses where deleted = 1');
     return row;
   } catch (error) {
     console.log(error.message);
@@ -51,6 +61,34 @@ const updateCourse = async (...courseInfo) => {
 
 const deleteCourse = async id => {
   try {
+    const [{ affectedRows }] = await pool.execute('UPDATE courses SET deleted = 1 WHERE id = ?', [
+      id,
+    ]);
+    if (affectedRows > 0) {
+      return 1;
+    }
+  } catch (error) {
+    console.log('🚀 ~ file: Courses.js ~ line 71 ~ error', error);
+    return 0;
+  }
+};
+
+const restoreCourse = async id => {
+  try {
+    const [{ affectedRows }] = await pool.execute('UPDATE courses SET deleted = 0 WHERE id = ?', [
+      id,
+    ]);
+    if (affectedRows > 0) {
+      return 1;
+    }
+  } catch (error) {
+    console.log('🚀 ~ file: Courses.js ~ line 71 ~ error', error);
+    return 0;
+  }
+};
+
+const permanentlyDelete = async id => {
+  try {
     const [{ affectedRows }] = await pool.execute('DELETE FROM courses WHERE id = ?', [id]);
     if (affectedRows > 0) {
       return 1;
@@ -61,4 +99,12 @@ const deleteCourse = async id => {
   }
 };
 
-export { getAllCourses, getParicularCourses, createCourse, updateCourse, deleteCourse };
+export {
+  getAllCourses,
+  getParicularCourses,
+  createCourse,
+  updateCourse,
+  deleteCourse,
+  getDeletedCourses,
+  restoreCourse,
+};

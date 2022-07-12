@@ -3,6 +3,8 @@ import {
   createCourse,
   updateCourse,
   deleteCourse,
+  getDeletedCourses,
+  restoreCourse,
 } from '../models/Courses.js';
 
 class CourseController {
@@ -16,10 +18,19 @@ class CourseController {
       next('Get Course by ID not found!');
     }
   }
-
   async create(req, res) {
     res.render('create');
   }
+
+  async trashCourse(req, res) {
+    const courses = await getDeletedCourses();
+    if (courses === 0) {
+      next('Get deleted courses failed !');
+    } else {
+      res.render('course-trash', { courses });
+    }
+  }
+
   // [POST] /store
   async store(req, res, next) {
     const data = req.body;
@@ -55,7 +66,17 @@ class CourseController {
     if (deleteStatus) {
       res.redirect('/me/courses');
     } else {
-      next('Delete course successfully !');
+      next('Delete course failed !');
+    }
+  }
+
+  async restore(req, res, next) {
+    const id = req.params.id;
+    const deleteStatus = await restoreCourse(id);
+    if (deleteStatus) {
+      res.redirect('/courses/recycle-bin');
+    } else {
+      next('Restore course failed !');
     }
   }
 }
