@@ -8,8 +8,8 @@ class SiteController {
     } else {
       next('Get Courses Failed !');
     }
-    res.render('home');
   }
+
   search(req, res) {
     res.render('search');
   }

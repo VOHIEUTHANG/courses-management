@@ -146,6 +146,18 @@ const deleteMultipleCourses = async courseIDs => {
   }
 };
 
+const getAllCourseAndSort = async (sortColumn, sortType) => {
+  try {
+    const [row] = await pool.execute(
+      `select * from courses where deleted = 0 order by ${sortColumn} ${sortType}`,
+    );
+    return row;
+  } catch (error) {
+    console.log('🚀 ~ file: Courses.js ~ line 142 ~ deleteMultipleCourses ~ error', error);
+    return false;
+  }
+};
+
 export {
   getAllCourses,
   getParicularCourses,
@@ -158,4 +170,5 @@ export {
   countDeletedCourse,
   countAvaliableCourses,
   deleteMultipleCourses,
+  getAllCourseAndSort,
 };
