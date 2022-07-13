@@ -99,6 +99,53 @@ const permanentlyDelete = async id => {
   }
 };
 
+const countDeletedCourse = async () => {
+  try {
+    const [[{ deletedCourseCount }]] = await pool.execute(
+      'select count(id) as deletedCourseCount from courses where deleted = 1',
+    );
+    return deletedCourseCount;
+  } catch (error) {
+    console.log('🚀 ~ file: Courses.js ~ line 110 ~ countDeletedCourse ~ error', error);
+    return -1;
+  }
+};
+
+const countAvaliableCourses = async () => {
+  try {
+    const [[{ availableCourses }]] = await pool.execute(
+      'select count(id) as availableCourses from courses where deleted = 0',
+    );
+    return availableCourses;
+  } catch (error) {
+    console.log('🚀 ~ file: Courses.js ~ line 125 ~ countAvaliableCourses ~ error', error);
+    return -1;
+  }
+};
+
+const deleteMultipleCourses = async courseIDs => {
+  console.log(courseIDs);
+  let setOfCourseID = '(';
+  courseIDs.forEach((id, index) => {
+    if (index !== 0) {
+      setOfCourseID += `, ${id}`;
+    } else {
+      setOfCourseID += `${id}`;
+    }
+  });
+  setOfCourseID += ')';
+  try {
+    const result = await pool.execute(
+      `UPDATE courses SET deleted = 1 WHERE id in ${setOfCourseID}`,
+    );
+    console.log(result);
+    return true;
+  } catch (error) {
+    console.log('🚀 ~ file: Courses.js ~ line 142 ~ deleteMultipleCourses ~ error', error);
+    return false;
+  }
+};
+
 export {
   getAllCourses,
   getParicularCourses,
@@ -108,4 +155,7 @@ export {
   getDeletedCourses,
   restoreCourse,
   permanentlyDelete,
+  countDeletedCourse,
+  countAvaliableCourses,
+  deleteMultipleCourses,
 };

@@ -6,6 +6,8 @@ import {
   getDeletedCourses,
   restoreCourse,
   permanentlyDelete,
+  countAvaliableCourses,
+  deleteMultipleCourses,
 } from '../models/Courses.js';
 
 class CourseController {
@@ -24,11 +26,12 @@ class CourseController {
   }
 
   async trashCourse(req, res) {
+    const availableCoursesQuantity = await countAvaliableCourses();
     const courses = await getDeletedCourses();
-    if (courses === 0) {
+    if (courses === 0 || availableCoursesQuantity === -1) {
       next('Get deleted courses failed !');
     } else {
-      res.render('course-trash', { courses });
+      res.render('course-trash', { courses, availableCoursesQuantity });
     }
   }
 
@@ -88,6 +91,21 @@ class CourseController {
       res.redirect('/courses/recycle-bin');
     } else {
       next('Restore course failed !');
+    }
+  }
+  // [POST] /handle-form
+  async handleForm(req, res, next) {
+    const { action, checkbox } = req.body;
+    const IDList = Array.isArray(checkbox) ? [...checkbox] : [checkbox];
+    switch (action) {
+      case 'delete':
+        const deleteCoursesStatus = await deleteMultipleCourses(IDList);
+        if (deleteCoursesStatus) {
+          res.redirect('/me/courses');
+        } else {
+          next('Delete multiple courses failed !');
+        }
+        break;
     }
   }
 }

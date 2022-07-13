@@ -1,8 +1,25 @@
-<div class='row mt-3'>
-  <h2 class='text-center'>My Courses</h2>
-  <table class='table table-bordered mt-4'>
+<form class='row mt-3' method="POST" action="/courses/handle-form">
+  <h2 class="text-center">My Courses</h2>
+  <div style="width:fit-content" class="btn btn-warning text-white">
+    <a href="/courses/recycle-bin" >Recycle Bin ( <span class="text-success">{{deletedCoursesQuantity}}</span> )</a>
+  </div>
+  <div class="mt-4 d-flex align-items-center" style="gap:16px">
+    <div class="form-check form-check-inline" style="margin-right: 0 !important;">
+      <label class="form-check-label" for="checkboxAll">
+        Select All
+      </label>
+      <input class="form-check-input" type="checkbox" value="" id="checkboxAll">
+    </div>
+    <select name="action"  id="selectAction" style="max-width:200px;display:inline-block" class="form-select form-select-md" aria-label=".form-select-lg example">
+      <option value="">Select Action</option>
+      <option value="delete">Delete</option>
+    </select>
+    <button type="submit" class="btn btn-warning btn-implement disabled">Implement</>
+  </div>
+  <table class='table table-bordered mt-4 courses-table'>
     <thead>
       <tr>
+        <th scope='col'>Check</th>
         <th scope='col'>Id</th>
         <th scope='col'>Name</th>
         <th scope='col'>Description</th>
@@ -13,19 +30,26 @@
     <tbody>
       {{#each courses}}
         <tr>
+          <th>
+            <div class="form-check d-flex justify-content-center">
+              <input name="checkbox" class="form-check-input checkItem" value="{{this.id}}" type="checkbox" >
+            </div>
+          </th>
           <th scope='row'>{{this.id}}</th>
           <td>{{this.name}}</td>
           <td>{{this.description}}</td>
-          <td>{{this.thumbnail}}</td>
+          <td>
+            <img style="max-width: 120px; max-height:100px; object-fit:cover; over-flow:hidden" src="{{this.thumbnail}}" alt="">
+          </td>
           <td>
             <div class='btn btn-dark'><a href='/courses/edit/{{this.id}}'>Edit</a></div>
             <span class='mx-1'></span>
-            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#configmDeleteCourse" data-id="{{this.id}}">Delete</>
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#configmDeleteCourse" data-id="{{this.id}}">Delete</a>
           </td>
         </tr>
         {{else}}
           <tr>
-            <td colspan="5">
+            <td colspan="6" class="text-center py-4">
               You are not have any course now, <a href="/courses/create">
                 create
               </a> new one  immediately ! 
@@ -34,7 +58,7 @@
       {{/each}}
     </tbody>
   </table>
-</div>
+</form>
 
 {{!-- Modal that confirm user delete your course  --}}
 <div class="modal fade" id="configmDeleteCourse" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -71,4 +95,37 @@
       formDeleteCourse.submit();
     }
   });
+
+  $(()=>{
+    const checkboxAll = $('#checkboxAll')
+    const checkItems = $('.checkItem')
+    const implementBtn = $('.btn-implement')
+    const selectAction = $('#selectAction');
+
+    checkboxAll.change((e)=>{
+      const checked = e.target.checked;
+      if(checked){
+        checkItems.prop('checked', true);
+      }else{
+        checkItems.prop('checked', false);
+      }
+      renderImplementBtn();
+    })
+    checkItems.change(()=>{
+      const isCheckedAll = checkItems.length === $('.checkItem:checked').length;
+      checkboxAll.prop('checked',isCheckedAll);
+      renderImplementBtn();
+    })
+    selectAction.change(()=>{
+      renderImplementBtn();
+    })
+    const renderImplementBtn = ()=>{
+    const isAnyCheckboxChecked = $('.checkItem:checked').length > 0;
+    const isSlectAction = selectAction.val();
+    isAnyCheckboxChecked && isSlectAction ? implementBtn.removeClass('disabled')  :  implementBtn.addClass('disabled');
+    }
+  $()
+
+  })
+
 </script>
