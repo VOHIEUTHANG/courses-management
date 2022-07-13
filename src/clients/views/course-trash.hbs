@@ -21,7 +21,7 @@
             <div  style="display:inline-block">
             <form
               method='POST'
-                style="display:inline-block"
+              style="display:inline-block"
               action="/courses/restore/{{this.id}}?_method=PATCH"
             >
             <button type='submit' class='btn btn-success'>
@@ -30,7 +30,7 @@
             </form>
             </div>
             <span class='mx-1'></span>
-            <button class="btn btn-danger">Permenently Delete</>
+              <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#configmDeleteCourse" data-id="{{this.id}}">Permenently Delete</>
           </td>
         </tr> 
         {{else}}
@@ -43,4 +43,45 @@
     </tbody>
   </table>
 </div>
+
+<div class="modal fade" id="configmDeleteCourse" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm delete course</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Confirm delete this course.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button class='btn btn-danger' id="delete-btn">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form 
+  method="POST" 
+  id="form-delete-course"
+  style="display:inline-block"
+</form>
+
+<script>
+  var exampleModal = document.getElementById('configmDeleteCourse');
+  exampleModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;
+    var id = button.getAttribute('data-id');
+    var modalTitle = exampleModal.querySelector('.modal-title');
+    const deleteButton = document.getElementById('delete-btn')
+    const formDeleteCourse = document.getElementById('form-delete-course');
+    deleteButton.onclick = ()=>{
+      formDeleteCourse.setAttribute('action',`/courses/force-delete/${id}?_method=DELETE`);
+      formDeleteCourse.submit();
+    }
+  });
+</script>
+
+
 

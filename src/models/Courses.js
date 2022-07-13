@@ -107,4 +107,5 @@ export {
   deleteCourse,
   getDeletedCourses,
   restoreCourse,
+  permanentlyDelete,
 };

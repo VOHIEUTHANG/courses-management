@@ -10,5 +10,6 @@ router.get('/detail/:id', courseController.detail);
 router.patch('/delete/:id', courseController.delete);
 router.patch('/restore/:id', courseController.restore);
 router.get('/recycle-bin', courseController.trashCourse);
+router.delete('/force-delete/:id', courseController.forceDelete);
 
 export default router;

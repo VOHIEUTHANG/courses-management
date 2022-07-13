@@ -5,6 +5,7 @@ import {
   deleteCourse,
   getDeletedCourses,
   restoreCourse,
+  permanentlyDelete,
 } from '../models/Courses.js';
 
 class CourseController {
@@ -59,7 +60,7 @@ class CourseController {
       next('Update course infor failed !');
     }
   }
-
+  // [PATCH] /delete/:id
   async delete(req, res, next) {
     const id = req.params.id;
     const deleteStatus = await deleteCourse(id);
@@ -69,11 +70,21 @@ class CourseController {
       next('Delete course failed !');
     }
   }
-
+  // [PATCH] /restore/:id
   async restore(req, res, next) {
     const id = req.params.id;
     const deleteStatus = await restoreCourse(id);
     if (deleteStatus) {
+      res.redirect('/courses/recycle-bin');
+    } else {
+      next('Restore course failed !');
+    }
+  }
+  //[DELETE] /force-delete/:id
+  async forceDelete(req, res, next) {
+    const courseId = req.params.id;
+    const permenetlyDeleteStatus = await permanentlyDelete(courseId);
+    if (permenetlyDeleteStatus) {
       res.redirect('/courses/recycle-bin');
     } else {
       next('Restore course failed !');
